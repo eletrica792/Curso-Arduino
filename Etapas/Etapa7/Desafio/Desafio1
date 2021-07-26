@@ -1,1 +1,106 @@
 
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(8,9,4,5,6,7);
+int led1 = 11;
+int led2 = 12;
+int led3 = 13;
+int led4 = 3;
+byte esq[8] ={B00000,
+                B00100,
+                B01000,
+                B11111,
+                B01000,
+                B00100,
+                B00000,
+                B00000,};
+ 
+byte dir[8] ={B00000,
+                B00100,
+                B00010,
+                B11111,
+                B00010,
+                B00100,
+                B00000,
+                B00000,};
+ 
+byte cim[8] ={B00100,
+                B01110,
+                B10101,
+                B00100,
+                B00100,
+                B00000,
+                B00000,
+                B00000,};
+ 
+byte bai[8] ={B00100,
+                B00100,
+                B10101,
+                B01110,
+                B00100,
+                B00000,
+                B00000,
+                B00000,};
+ 
+void setup()
+{
+  Serial.begin(9600);
+  lcd.begin(16,2);
+  lcd.createChar(0, esq);
+  lcd.createChar(1, dir);
+  lcd.createChar(2, cim);
+  lcd.createChar(3, bai);
+  lcd.setCursor(0,0);
+  lcd.print("Direcao da seta");
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT); 
+ 
+    
+}
+ 
+void loop()
+{
+  lcd.setCursor(0,1);
+  Serial.println(analogRead(0));
+  if ((analogRead(0)<80))
+      {
+        lcd.print("DIREITA ");
+        lcd.setCursor(14, 1);
+        lcd.write((byte)1);    
+        digitalWrite(led1, HIGH);
+        delay(250);
+        digitalWrite(led1, LOW);
+        delay(250);
+      }
+      else if (analogRead(0)<200)
+      {
+        lcd.print("FRENTE  ");
+        lcd.setCursor(14, 1);
+        lcd.write((byte)2);
+        digitalWrite(led2, HIGH);
+        delay(250);
+        digitalWrite(led2, LOW);
+        delay(250);
+      }
+      else if ((analogRead(0))<400)
+      {
+        lcd.print("RE      ");
+        lcd.setCursor(14, 1);
+        lcd.write((byte)3);
+        digitalWrite(led3, HIGH);
+        delay(250);
+        digitalWrite(led3, LOW);
+        delay(250);
+      }
+      else if ((analogRead(0))<600)
+      {
+        lcd.print("ESQUERDA");
+        lcd.setCursor(14, 1);
+        lcd.write((byte)0);
+        digitalWrite(led4, HIGH);
+        delay(250);
+        digitalWrite(led4, LOW);
+        delay(250);
+      }
+}
