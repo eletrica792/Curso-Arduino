@@ -1,0 +1,74 @@
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(8,9,4,5,6,7);
+ 
+#define analog A1
+int valtemp = 0;
+int bot1 = 3;
+int bot2 = 13;
+int bot3 = 12;
+int led1 = 11;
+int temp = 0;
+int settemp = 60;
+byte grau[8]={B001100,
+              B010010,
+              B010010,
+              B001100,
+              B000000,
+              B000000,
+              B000000,
+              B000000,
+             };
+ 
+void setup()
+{
+  Serial.begin(9600);
+  lcd.begin(16,2);
+  lcd.createChar(0, grau);
+  lcd.setCursor(0,0);
+  lcd.print("Temperatura");
+  pinMode(led1, OUTPUT);
+  pinMode(bot1, INPUT);
+  pinMode(bot2, INPUT);
+  pinMode(bot3, INPUT);    
+}
+ 
+void loop()
+{
+  valtemp=analogRead(analog);
+  temp=map(valtemp,20,358,-40,125);
+  lcd.setCursor(0,1);
+  lcd.print("Valor:  ");
+  lcd.setCursor(9,1);
+  lcd.print(temp);
+  lcd.print(" ");
+  lcd.setCursor(12,1);
+  lcd.write((byte)0);
+  lcd.print("C");
+  Serial.println(settemp);
+  if (temp<settemp)
+  {
+    digitalWrite(led1, HIGH);
+  }
+  else 
+  {
+    digitalWrite(led1, LOW);
+  }
+ 
+  
+  while (digitalRead(bot1))
+  {
+    lcd.setCursor(0,1);
+    lcd.print("Regular:");
+     lcd.setCursor(9,1);
+    lcd.print(settemp);
+    if (digitalRead(bot2))
+    {
+      settemp--;
+    }
+    if (digitalRead(bot3))
+    {
+      settemp++;
+    }
+       
+  }
+}
