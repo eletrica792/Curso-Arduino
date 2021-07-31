@@ -1,0 +1,33 @@
+#define analog A0 
+int lamp = 10; 
+int valsensor = 0; 
+int temp; 
+
+void setup() 
+{ 
+  pinMode(lamp, OUTPUT); 
+  Serial.begin(9600); 
+} 
+
+void loop() 
+{ 
+  valsensor = analogRead(analog); 
+  temp = map(valsensor,20,358,-40,125); 
+  Serial.println(temp); 
+  
+  if(temp<45) 
+  { 
+    digitalWrite(lamp, HIGH); 
+    Serial.println("Temperatura Baixa"); 
+    } 
+    else if((temp>=45)&&(temp<=50)) 
+    { 
+    digitalWrite(lamp, HIGH); 
+    Serial.println("Temperatura ajustada"); 
+    } 
+    else  
+    { 
+    digitalWrite(lamp, LOW); 
+    Serial.println("Temperatura alta"); 
+    } 
+} 
