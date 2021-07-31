@@ -1,0 +1,82 @@
+#define analog A0 
+int led1 = 4; 
+int led2 = 5; 
+int led3 = 6; 
+int led4 = 7; 
+
+void setup() 
+{ 
+  pinMode(led1, OUTPUT); 
+  pinMode(led2, OUTPUT); 
+  pinMode(led3, OUTPUT); 
+  pinMode(led4, OUTPUT); 
+  Serial.begin(9600); 
+} 
+void loop() 
+{ 
+  int valsensor = analogRead(analog); 
+  
+  if(volt==0) 
+  { 
+    digitalWrite(led1, LOW); 
+    digitalWrite(led2, LOW); 
+    digitalWrite(led3, LOW); 
+    digitalWrite(led4, LOW); 
+  } 
+  
+  if((volt>=1)&&(volt<50)) 
+  { 
+   digitalWrite(led1, HIGH); 
+   Serial.println("Valor Baixo"); 
+  } 
+  else  
+  { 
+   digitalWrite(led1, LOW); 
+  } 
+
+  if((volt>=50)&&(volt<80)) 
+  { 
+   digitalWrite(led2, HIGH); 
+   Serial.println("Valor Medio"); 
+   } 
+  else 
+  { 
+   digitalWrite(led2, LOW); 
+  } 
+
+ if((volt>=80)&&(volt<150)) 
+  { 
+   digitalWrite(led3, HIGH); 
+   Serial.println("Valor Alto"); 
+  } 
+  else 
+  { 
+   digitalWrite(led3, LOW); 
+  } 
+
+  if((volt>=150)&&(volt<200)) 
+  { 
+   digitalWrite(led4, HIGH); 
+   Serial.println("ALERTA"); 
+  }  
+  else  
+  { 
+   digitalWrite(led4, LOW); 
+  }   
+
+if(volt>=200) 
+  { 
+    digitalWrite(led1, HIGH); 
+    digitalWrite(led2, HIGH); 
+    digitalWrite(led3, HIGH); 
+    digitalWrite(led4, HIGH); 
+    delay(250); 
+    digitalWrite(led1, LOW); 
+    digitalWrite(led2, LOW); 
+    digitalWrite(led3, LOW); 
+    digitalWrite(led4, LOW); 
+    delay(250); 
+    Serial.println("VALOR EXCEDENTE"); 
+    } 
+    
+} 
