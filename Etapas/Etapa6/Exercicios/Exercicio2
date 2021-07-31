@@ -1,0 +1,21 @@
+#define analog A0 
+int lamp = 10; 
+int valsensor = 0; 
+int limiar = 5; 
+int volt; 
+
+void setup() 
+{ 
+  pinMode(lamp, OUTPUT); 
+  Serial.begin(9600); 
+} 
+void loop() 
+{ 
+  valsensor = analogRead(analog); 
+  volt = map(valsensor,6,679,679,6); 
+  Serial.println(volt); 
+  if (volt>limiar) 
+  { 
+  analogWrite(lamp, volt/4); 
+  } 
+} 
